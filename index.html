@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE BOOK WEB</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://kit.fontawesome.com/536eb4c30e.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <a href="/" class="navbar__logo">THE BOOK WEB</a>
+        <div class="auth-buttons">
+            <a href="/" class="button">Login</a>
+            <a href="/" class="button">Register</a>
+        </div>
+    </header>
+
+    <nav class="navbar">
+        <div class="navbar__container">
+            <ul>
+                <li><a href="#gallery-section" class="nav-link" data-section="gallery-section">Gallery</a></li>
+                <li><a href="#about-section" class="nav-link" data-section="about-section">About</a></li>
+                <li><a href="#reading-list-section" class="nav-link" data-section="reading-list-section">Reading List</a></li>
+                <li><a href="#finished-books-section" class="nav-link" data-section="finished-books-section">Finished Books</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main>
+        <!-- About Section -->
+        <div id="about-section" class="section hidden">
+            <h2>About The Book Web</h2>
+            <p>
+                The Book Web is an application designed to help you discover, track, and organize your reading journey.
+                You can browse books by genre, add them to your reading list, and keep track of books you've finished.
+            </p>
+            <p>
+                Whether you're a casual reader or a book enthusiast, The Book Web provides a user-friendly interface to enhance your reading experience.
+                Explore our extensive library, filter books by genre, and create a personalized reading list to keep track of your progress.
+                With The Book Web, you'll never run out of great reads!
+                Discover new authors, genres, and titles that match your interests. 
+            </p>
+        </div>
+
+        <!-- Gallery Section -->
+        <div id="gallery-section" class="section">
+            <h2>Book Gallery</h2>
+            <div class="gallery-filter">
+                <select id="genre-filter" aria-label="Filter by Genre">
+                    <option value="">All Genres</option>
+                    <option value="fiction">Fiction</option>
+                    <option value="science">Science</option>
+                    <option value="biography">Biography</option>
+                    <option value="history">History</option>
+                    <option value="fantasy">Fantasy</option>
+                    <option value="mystery">Mystery</option>
+                    <option value="self-help">Self-Help</option>
+                </select>
+            </div>
+            <div class="book-grid" id="book-gallery">
+                <!-- Books will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Reading List Section -->
+        <div id="reading-list-section" class="section hidden">
+            <h2>Reading List</h2>
+            <div id="reading-list-container">
+                <!-- Reading list items will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Finished Books Section -->
+        <div id="finished-books-section" class="section hidden">
+            <h2>Finished Books</h2>
+            <div id="finished-books-container" class="finished-books-grid">
+                <!-- Finished books will be loaded here -->
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Section -->
+    <footer class="footer__container">
+        <div class="footer__content">
+            <div class="footer__links">
+                <div class="footer__link--wrapper">
+                    <div class="footer__links--items">
+                        <h2>About Us</h2>
+                        <a href="/">How it works</a>
+                        <a href="/">Testimonials</a>
+                        <a href="/">Careers</a>
+                        <a href="/">Investments</a>
+                        <a href="/">Terms of Service</a>
+                    </div>
+
+                    <div class="footer__links--items">
+                        <h2>Contact Us</h2>
+                        <a href="/">Contact</a>
+                        <a href="/">Support</a>
+                        <a href="/">Sponsorships</a>
+                    </div>
+
+                    <div class="footer__links--items">
+                        <h2>Media</h2>
+                        <a href="/">Instagram</a>
+                        <a href="/">WhatsApp</a>
+                        <a href="/">TikTok</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Icons and Website Rights -->
+            <div class="footer__bottom">
+                <div class="socials__icons">
+                    <a href="/" class="social__icon--link" target="_blank" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="/" class="social__icon--link" target="_blank" title="WhatsApp">
+                        <i class="fab fa-whatsapp"></i>
+                    </a>
+                    <a href="/" class="social__icon--link" target="_blank" title="TikTok">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </div>
+
+                <p class="website__rights">© THE BOOK WEB 2025. All rights reserved</p>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
