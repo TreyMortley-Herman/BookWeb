@@ -1,4 +1,5 @@
 // Book Gallery JS code
+
 // Store the books data
 let booksData = [];
 let readingList = [];
@@ -124,7 +125,7 @@ function renderBooks(books) {
     let html = `<div class="book-count">Showing ${books.length} books</div>`;
     
     // Create grid for books
-    html += '<div class="books-grid">';
+    html += '<div class="section books-grid">';
     
     for (let book of books) {
         // Access the volumeInfo from each book
