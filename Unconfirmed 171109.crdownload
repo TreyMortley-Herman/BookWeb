@@ -1,0 +1,10 @@
+const firebaseConfig = {
+    apiKey: "AIzaSyAwR49Ngq-1nZAIaZcl3iWAv9K1bWXLUR0",
+    authDomain: "bookweb-a97fb.firebaseapp.com",
+    projectId: "bookweb-a97fb",
+    storageBucket: "bookweb-a97fb.firebasestorage.app",
+    messagingSenderId: "323036203604",
+    appId: "1:323036203604:web:7dda03a47b12e2efaefbc1"
+  };
+  
+  export default firebaseConfig;
