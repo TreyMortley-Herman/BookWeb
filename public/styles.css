@@ -809,3 +809,114 @@ main {
     background-color: var(--accent-color);
     color: var(--dark-bg);
 }
+
+/* NEXT PAGE */
+
+/* Enhanced Pagination Controls */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 30px 0;
+    gap: 15px;
+}
+
+.pagination-btn {
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pagination-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.pagination-btn:disabled {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.page-info {
+    color: var(--accent-color);
+    font-size: 16px;
+    font-weight: 500;
+    padding: 8px 16px;
+    background-color: rgba(0, 255, 170, 0.1);
+    border-radius: 20px;
+    border: 1px solid rgba(0, 255, 170, 0.3);
+}
+
+/* Loading indicator */
+.loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    margin: 20px 0;
+    font-size: 18px;
+    color: var(--accent-color);
+    background-color: rgba(0, 255, 170, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 170, 0.1);
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* Book count display */
+.book-count {
+    text-align: center;
+    color: var(--accent-color);
+    background-color: rgba(0, 255, 170, 0.05);
+    border-radius: 10px;
+    padding: 12px;
+    margin: 20px 0;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid rgba(0, 255, 170, 0.1);
+}
+
+/* No results message */
+.no-results {
+    text-align: center;
+    padding: 30px;
+    color: var(--text-secondary);
+    font-size: 18px;
+    background-color: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin: 20px 0;
+}
+
+/* Responsive adjustments */
+@media screen and (max-width: 480px) {
+    .pagination-controls {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .pagination-btn {
+        width: 100%;
+    }
+    
+    .book-count {
+        font-size: 14px;
+        padding: 10px;
+    }
+}
