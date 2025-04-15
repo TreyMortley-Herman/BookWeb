@@ -447,8 +447,7 @@ function updatePaginationControls() {
     if (currentPage > 1) {
       currentPage--;
       renderBookGallery();
-      // Scroll to top of book gallery
-      document.getElementById('book-gallery')?.scrollIntoView({ behavior: 'smooth' });
+      
     }
   });
   
@@ -456,8 +455,7 @@ function updatePaginationControls() {
     if (currentPage < totalPages) {
       currentPage++;
       renderBookGallery();
-      // Scroll to top of book gallery
-      document.getElementById('book-gallery')?.scrollIntoView({ behavior: 'smooth' });
+
     }
   });
 }
