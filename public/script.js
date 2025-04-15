@@ -174,9 +174,9 @@ async function searchBooks(bookName) {
 // ------------------------------
 
 function renderReadingList() {
-  const readingListContainer = document.getElementById('reading-list');
+  const readingListContainer = document.getElementById('reading-list-container');
   if (!readingListContainer) {
-    console.error("No element with id 'reading-list' found");
+    console.error("No element with id 'reading-list-container' found");
     return;
   }
   readingListContainer.innerHTML = '';
@@ -200,8 +200,8 @@ function renderReadingList() {
           <div class="book-date">Published: ${volumeInfo.publishedDate || 'Unknown'}</div>
           <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + '...' : 'No description available'}</div>
           <div class="book-actions">
-              <button class="btn btn-danger remove-btn" data-id="${book.id}">Remove</button>
-              <button class="btn btn-success finished-btn" data-id="${book.id}">Mark as Finished</button>
+              <button class="remove-btn" data-id="${book.id}">Remove</button>
+              <button class="finished-btn" data-id="${book.id}">Finished</button>
           </div>
       </div>
     `;
@@ -281,7 +281,7 @@ function renderFinishedBooks() {
           <div class="book-date">Published: ${volumeInfo.publishedDate || 'Unknown'}</div>
           <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + '...' : 'No description available'}</div>
           <div class="book-actions">
-              <button class="btn btn-danger remove-finished-btn" data-id="${book.id}">Remove</button>
+              <button class="remove-btn" data-id="${book.id}">Remove</button>
           </div>
       </div>
     `;
