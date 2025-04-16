@@ -41,9 +41,10 @@ onAuthStateChanged(auth, (user) => {
 function showUserInfo(user) {
   const authButtonsDiv = document.querySelector(".auth-buttons");
   if (authButtonsDiv) {
-    authButtonsDiv.innerHTML = `
-      <span style="margin-right: 10px; font-weight: bold;">${user.displayName || "User"}</span>
-      <button id="logout-button" style="padding: 10px;">Logout</button>
+    authButtonsDiv.innerHTML = ` <div class="user-controls">
+  <span class="user-name">${user.displayName || "User"}</span>
+  <button id="logout-button" class="button">Logout</button>
+  </div> 
     `;
     document.getElementById("logout-button").addEventListener("click", () => {
       signOut(auth)
@@ -222,10 +223,10 @@ function setupSearchListener() {
 
 // ------------------------------------------------------------
 // Function: renderReadingList()
-// Renders the reading list in the container with id "reading-list".
+// Renders the reading list in the container with id "reading-list-container".
 // ------------------------------------------------------------
 function renderReadingList() {
-  const readingListContainer = document.getElementById("reading-list");
+  const readingListContainer = document.getElementById("reading-list-container");
   if (!readingListContainer) return;
   readingListContainer.innerHTML = "";
   if (!readingList.length) {
@@ -245,7 +246,7 @@ function renderReadingList() {
         <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + "..." : "No description available"}</div>
         <div class="book-actions">
           <button class="btn btn-danger remove-btn" data-id="${book.id}">Remove</button>
-          <button class="btn btn-success finished-btn" data-id="${book.id}">Mark as Finished</button>
+          <button class="btn btn-success finished-btn" data-id="${book.id}">Finished</button>
         </div>
       </div>
     `;
@@ -312,13 +313,13 @@ function renderFinishedBooks() {
         <div class="book-date">Published: ${volumeInfo.publishedDate || "Unknown"}</div>
         <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + "..." : "No description available"}</div>
         <div class="book-actions">
-          <button class="btn btn-danger remove-finished-btn" data-id="${book.id}">Remove</button>
+          <button class="remove-btn" data-id="${book.id}">Remove</button>
         </div>
       </div>
     `;
     finishedBooksContainer.appendChild(bookElement);
   });
-  document.querySelectorAll(".remove-finished-btn").forEach(btn => btn.addEventListener("click", handleRemoveFinishedBook));
+  document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", handleRemoveFinishedBook));
 }
 
 // ------------------------------------------------------------
@@ -332,37 +333,13 @@ function handleRemoveFinishedBook(event) {
 }
 
 // ------------------------------------------------------------
-// Function: initReadingListSection()
-// Hides the reading list container initially and sets up the "View Reading List"
-// button so that a click toggles the display of the reading list.
-// ------------------------------------------------------------
-function initReadingListSection() {
-  const button = document.getElementById("view-reading-list");
-  const container = document.getElementById("reading-list");
-  if (container) {
-    container.style.display = "none"; // hide initially
-  }
-  if (button) {
-    button.addEventListener("click", () => {
-      if (container.style.display === "none") {
-        container.style.display = "block";
-        renderReadingList();
-        button.textContent = "Hide Reading List";
-      } else {
-        container.style.display = "none";
-        button.textContent = "View Reading List";
-      }
-    });
-  }
-}
-
-// ------------------------------------------------------------
 // Function: initApp()
 // Main application initialization function.
 // Loads localStorage data, fetches books (default "fiction"),
-// sets up genre filter and search listeners, and sets up the reading list toggle.
+// sets up genre filter and search listeners, and renders the reading list.
 // ------------------------------------------------------------
-function initApp() {
+
+function initApp() { 
   loadFromLocalStorage();
   loadFinishedBooksFromLocalStorage();
   
@@ -371,9 +348,8 @@ function initApp() {
     setupGenreFilter();
   }
   
-  // Do not auto-render the reading list; let the "View Reading List" button control it.
-  if (document.getElementById("view-reading-list")) {
-    initReadingListSection();
+  if (document.getElementById("reading-list-container")) {
+    renderReadingList();
   }
   
   if (document.getElementById("finished-books-container")) {
@@ -386,3 +362,4 @@ function initApp() {
   
   console.log("App initialized.");
 }
+
