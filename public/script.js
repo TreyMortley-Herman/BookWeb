@@ -149,7 +149,7 @@ function renderBookGallery() {
   document.querySelectorAll(".bookmark-btn").forEach(btn => {
     btn.addEventListener("click", handleBookmarkClick);
   });
-}
+} 
 
 // ------------------------------------------------------------
 // Function: handleBookmarkClick()
