@@ -1,108 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE BOOK WEB</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://kit.fontawesome.com/536eb4c30e.js" crossorigin="anonymous"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>THE BOOK WEB</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://kit.fontawesome.com/536eb4c30e.js" crossorigin="anonymous"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
-    <header>
-        <a href="/" class="navbar__logo">THE BOOK WEB</a>
-        <div class="auth-buttons">
-            <a href="login.html" class="button">Login</a>
-            <a href="register.html" class="button">Register</a>
-        </div>
-    </header>
-
-    <nav class="navbar">
-        <div class="navbar__container">
-            <ul>
-                <li><a href="index.html" class="nav-link" data-section="home-section">Home</a></li>
-                <li><a href="Gallery.html" class="nav-link" data-section="gallery-section">Gallery</a></li>
-                <li><a href="about.html" class="nav-link" data-section="about-section">About</a></li>
-                <li><a href="readinglist.html" class="nav-link" data-section="reading-list-section">Reading List</a></li>
-                <li><a href="finishedlist.html" class="nav-link" data-section="finished-books-section">Finished Books</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <main>
-        <div class="auth-form-container">
-            <form class="auth-form" id="login-form">
-                <h2>Login to Your Account</h2>
-                
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required>
-                </div>
-                
-                <button type="submit" class="submit-btn">Login</button>
-                
-                <div class="form-footer">
-                    <p>Don't have an account? <a href="register.html">Register</a></p>
-                    <p><a href="#">Forgot your password?</a></p>
-                </div>
-            </form>
-        </div>
-    </main>
-
-
- <!-- Footer Section -->
- <footer class="footer__container">
-    <div class="footer__content">
-        <div class="footer__links">
-            <div class="footer__link--wrapper">
-                <div class="footer__links--items">
-                    <h2>About Us</h2>
-                    <a href="/">How it works</a>
-                    <a href="/">Testimonials</a>
-                    <a href="/">Careers</a>
-                    <a href="/">Investments</a>
-                    <a href="/">Terms of Service</a>
-                </div>
-
-                <div class="footer__links--items">
-                    <h2>Contact Us</h2>
-                    <a href="/">Contact</a>
-                    <a href="/">Support</a>
-                    <a href="/">Sponsorships</a>
-                </div>
-
-                <div class="footer__links--items">
-                    <h2>Media</h2>
-                    <a href="/">Instagram</a>
-                    <a href="/">WhatsApp</a>
-                    <a href="/">TikTok</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Social Icons and Website Rights -->
-        <div class="footer__bottom">
-            <div class="socials__icons">
-                <a href="/" class="social__icon--link" target="_blank" title="Instagram">
-                    <i class="fab fa-instagram"></i>
-                </a>
-                <a href="/" class="social__icon--link" target="_blank" title="WhatsApp">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a href="/" class="social__icon--link" target="_blank" title="TikTok">
-                    <i class="fab fa-tiktok"></i>
-                </a>
-            </div>
-
-            <p class="website__rights">© THE BOOK WEB 2025. All rights reserved</p>
-        </div>
+  <header>
+    <a href="/" class="navbar__logo">THE BOOK WEB</a>
+    <div class="auth-buttons">
+      <a href="login.html" class="button">Login</a>
+      <a href="register.html" class="button">Register</a>
     </div>
-</footer>
+  </header>
 
+  <nav class="navbar">
+    <div class="navbar__container">
+      <ul>
+        <li><a href="index.html" class="nav-link" data-section="home-section">Home</a></li>
+        <li><a href="Gallery.html" class="nav-link" data-section="gallery-section">Gallery</a></li>
+        <li><a href="about.html" class="nav-link" data-section="about-section">About</a></li>
+        <li><a href="readinglist.html" class="nav-link" data-section="reading-list-section">Reading List</a></li>
+        <li><a href="finishedlist.html" class="nav-link" data-section="finished-books-section">Finished Books</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+      <div class="auth-form-container">
+          <form class="auth-form" id="login-form">
+              <h2>Login to Your Account</h2>
+              
+              <div class="form-group">
+                  <label for="email">Email</label>
+                  <input type="email" id="email" name="email" required>
+              </div>
+              
+              <div class="form-group">
+                  <label for="password">Password</label>
+                  <input type="password" id="password" name="password" required>
+              </div>
+              
+              <button type="submit" class="submit-btn">Login</button>
+              
+              <div class="form-footer">
+                  <p>Don't have an account? <a href="register.html">Register</a></p>
+                  <p><a href="#">Forgot your password?</a></p>
+              </div>
+          </form>
+      </div>
+  </main>
+
+  <!-- Footer Section -->
+  <footer class="footer__container">
+      <div class="footer__content">
+          <div class="footer__links">
+              <div class="footer__link--wrapper">
+                  <div class="footer__links--items">
+                      <h2>About Us</h2>
+                      <a href="/">How it works</a>
+                      <a href="/">Testimonials</a>
+                      <a href="/">Careers</a>
+                      <a href="/">Investments</a>
+                      <a href="/">Terms of Service</a>
+                  </div>
+
+                  <div class="footer__links--items">
+                      <h2>Contact Us</h2>
+                      <a href="/">Contact</a>
+                      <a href="/">Support</a>
+                      <a href="/">Sponsorships</a>
+                  </div>
+
+                  <div class="footer__links--items">
+                      <h2>Media</h2>
+                      <a href="/">Instagram</a>
+                      <a href="/">WhatsApp</a>
+                      <a href="/">TikTok</a>
+                  </div>
+              </div>
+          </div>
+
+          <div class="footer__bottom">
+              <div class="socials__icons">
+                  <a href="/" class="social__icon--link" target="_blank" title="Instagram">
+                      <i class="fab fa-instagram"></i>
+                  </a>
+                  <a href="/" class="social__icon--link" target="_blank" title="WhatsApp">
+                      <i class="fab fa-whatsapp"></i>
+                  </a>
+                  <a href="/" class="social__icon--link" target="_blank" title="TikTok">
+                      <i class="fab fa-tiktok"></i>
+                  </a>
+              </div>
+              <p class="website__rights">© THE BOOK WEB 2025. All rights reserved</p>
+          </div>
+      </div>
+  </footer>
+
+  <!-- Firebase Initialization and Login Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+    
+    // Firebase configuration
+    const firebaseConfig = {
+    apiKey: "AIzaSyBC6_5y0N4Rbn-S42tboZaq3ZzHaRpq_L0",
+    authDomain: "bookweb-36055.firebaseapp.com",
+    projectId: "bookweb-36055",
+    storageBucket: "bookweb-36055.firebasestorage.app",
+    messagingSenderId: "227791068443",
+    appId: "1:227791068443:web:1c819c673dcc234c8847be"
+  };
+  
+  export default firebaseConfig;
+    
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    
+    const loginForm = document.getElementById("login-form");
+    
+    loginForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
+      
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // On successful login, redirect to index.html.
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          console.error("Login Error:", error);
+          alert("Login Error: " + error.message);
+        });
+    });
+  </script>
 </body>
 </html>

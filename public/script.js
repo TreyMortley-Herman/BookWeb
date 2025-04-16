@@ -1,344 +1,388 @@
-// ------------------------------
-// Book Gallery and Reading List
-// ------------------------------
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
 
-// Store the books data and the reading list
+// ---------------------
+// Firebase Configuration
+// ---------------------
+const firebaseConfig = {
+  apiKey: "AIzaSyBC6_5y0N4Rbn-S42tboZaq3ZzHaRpq_L0",
+  authDomain: "bookweb-36055.firebaseapp.com",
+  projectId: "bookweb-36055",
+  storageBucket: "bookweb-36055.firebasestorage.app",
+  messagingSenderId: "227791068443",
+  appId: "1:227791068443:web:1c819c673dcc234c8847be"
+};
+
+export default firebaseConfig;
+
+// Initialize Firebase.
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+// ---------------------------------------------------------------------
+// Listen for authentication state changes.
+// If a user is signed in, update the header and initialize the app.
+// Otherwise, the page loads without forcing a login prompt.
+// ---------------------------------------------------------------------
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    showUserInfo(user);
+  }
+  // In any case, initialize the application functionality.
+  initApp();
+});
+
+// ---------------------------------------------------------------------
+// Function: showUserInfo()
+// Updates the header’s .auth-buttons container to display the user's name
+// and a Logout button. This header update will occur on every page hosting
+// script.js.
+// ---------------------------------------------------------------------
+function showUserInfo(user) {
+  const authButtonsDiv = document.querySelector(".auth-buttons");
+  if (authButtonsDiv) {
+    authButtonsDiv.innerHTML = `
+      <span style="margin-right: 10px; font-weight: bold;">${user.displayName || "User"}</span>
+      <button id="logout-button" style="padding: 10px;">Logout</button>
+    `;
+    document.getElementById("logout-button").addEventListener("click", () => {
+      signOut(auth)
+        .then(() => {
+          // Reload the page so the default header (with Login/Register) is shown.
+          window.location.reload();
+        })
+        .catch((error) => {
+          alert("Error signing out: " + error.message);
+        });
+    });
+  }
+}
+
+/* -----------------------------------------------------------
+    BookWeb Application General Functionality:
+   - Book Gallery via Google Books API
+   - Bookmarking (Reading List) functionality
+   - Finished Books Management
+   - Search & Genre Filter functionality
+   ----------------------------------------------------------- */
+
+// Global arrays for app functionality.
 let booksData = [];
 let readingList = [];
-
-// Additionally, store finished books
 let finishedBooks = [];
 
-// Load reading list from localStorage (if available)
+// ----------------------
+// LocalStorage Functions
+// ----------------------
 function loadFromLocalStorage() {
-  const savedReadingList = localStorage.getItem('readingList');
+  const savedReadingList = localStorage.getItem("readingList");
   if (savedReadingList) {
     readingList = JSON.parse(savedReadingList);
   }
 }
 
-// Save the reading list to localStorage
 function saveToLocalStorage() {
-  localStorage.setItem('readingList', JSON.stringify(readingList));
+  localStorage.setItem("readingList", JSON.stringify(readingList));
 }
 
-// Load finished books from localStorage (if available)
 function loadFinishedBooksFromLocalStorage() {
-  const savedFinishedBooks = localStorage.getItem('finishedBooks');
+  const savedFinishedBooks = localStorage.getItem("finishedBooks");
   if (savedFinishedBooks) {
     finishedBooks = JSON.parse(savedFinishedBooks);
   }
 }
 
-// Save finished books to localStorage
 function saveFinishedBooksToLocalStorage() {
-  localStorage.setItem('finishedBooks', JSON.stringify(finishedBooks));
+  localStorage.setItem("finishedBooks", JSON.stringify(finishedBooks));
 }
 
-// Fetch books from Google Books API (default: no genre filter)
-async function fetchBooks(genre = '') {
+// ------------------------------------------------------------
+// Function: fetchBooks()
+// Fetches books using the Google Books API. Uses "fiction" as default
+// or uses a provided genre.
+async function fetchBooks(genre = "") {
   try {
-    // Use a default query term ("fiction") if no genre is provided.
-    let query = genre ? `subject:${genre}` : 'fiction';
+    let query = genre ? `subject:${genre}` : "fiction";
     console.log(`Fetching books with query: "${query}"`);
-    
     const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${query}&maxResults=40`);
     const data = await response.json();
-    
-    console.log('API response:', data);
     booksData = data.items || [];
-    
     renderBookGallery();
   } catch (error) {
-    console.error('Error fetching books:', error);
+    console.error("Error fetching books:", error);
   }
 }
 
-// Render the book gallery (make sure the #book-gallery container exists in the HTML)
+// ------------------------------------------------------------
+// Function: renderBookGallery()
+// Renders the fetched books into the container with id "book-gallery".
+// ------------------------------------------------------------
 function renderBookGallery() {
-  const galleryContainer = document.getElementById('book-gallery');
-  if (!galleryContainer) {
-    console.error("No element with id 'book-gallery' found");
+  const galleryContainer = document.getElementById("book-gallery");
+  if (!galleryContainer) return;
+  galleryContainer.innerHTML = "";
+  if (!booksData.length) {
+    galleryContainer.innerHTML = "<p>No books to display.</p>";
     return;
   }
-  galleryContainer.innerHTML = ''; // Clear previous content
-
-  if (booksData.length === 0) {
-    galleryContainer.innerHTML = '<p>No books to display.</p>';
-    return;
-  }
-
   booksData.forEach(book => {
     const volumeInfo = book.volumeInfo;
     const isBookmarked = readingList.some(item => item.id === book.id);
-    const bookElement = document.createElement('div');
-    bookElement.className = 'book-card';
-
+    const bookElement = document.createElement("div");
+    bookElement.className = "book-card";
     bookElement.innerHTML = `
       <img class="book-cover" src="${volumeInfo.imageLinks?.thumbnail || '/api/placeholder/200/300'}" alt="Cover of ${volumeInfo.title}">
       <div class="book-info">
-          <div class="book-title">${volumeInfo.title || 'Unknown Title'}</div>
-          <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown Author'}</div>
-          <div class="book-date">Published: ${volumeInfo.publishedDate || 'Unknown'}</div>
-          <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + '...' : 'No description available'}</div>
-          <div class="book-actions">
-              <button class="btn ${isBookmarked ? 'btn-secondary' : 'btn-primary'} bookmark-btn" data-id="${book.id}">
-                  ${isBookmarked ? 'Bookmarked' : 'Bookmark'}
-              </button>
-          </div>
+        <div class="book-title">${volumeInfo.title || "Unknown Title"}</div>
+        <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(", ") : "Unknown Author"}</div>
+        <div class="book-date">Published: ${volumeInfo.publishedDate || "Unknown"}</div>
+        <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + "..." : "No description available"}</div>
+        <div class="book-actions">
+          <button class="btn ${isBookmarked ? "btn-secondary" : "btn-primary"} bookmark-btn" data-id="${book.id}">
+            ${isBookmarked ? "Bookmarked" : "Bookmark"}
+          </button>
+        </div>
       </div>
     `;
     galleryContainer.appendChild(bookElement);
   });
-
-  // Add event listeners to bookmark buttons (to add books to the reading list)
-  document.querySelectorAll('.bookmark-btn').forEach(btn => {
-    btn.addEventListener('click', handleBookmarkClick);
+  document.querySelectorAll(".bookmark-btn").forEach(btn => {
+    btn.addEventListener("click", handleBookmarkClick);
   });
 }
 
-// Handle adding a book to the reading list
+// ------------------------------------------------------------
+// Function: handleBookmarkClick()
+// Adds a book to the reading list (if not already added).
+// ------------------------------------------------------------
 function handleBookmarkClick(event) {
-  const bookId = event.target.getAttribute('data-id');
+  const bookId = event.target.getAttribute("data-id");
   const book = booksData.find(item => item.id === bookId);
   if (!book) return;
-
-  const isAlreadyBookmarked = readingList.some(item => item.id === bookId);
-  if (isAlreadyBookmarked) {
-    alert('This book is already in your reading list');
+  if (readingList.some(item => item.id === bookId)) {
+    alert("This book is already in your reading list");
   } else {
     readingList.push(book);
     saveToLocalStorage();
-    event.target.textContent = 'Bookmarked';
-    event.target.classList.remove('btn-primary');
-    event.target.classList.add('btn-secondary');
+    event.target.textContent = "Bookmarked";
+    event.target.classList.remove("btn-primary");
+    event.target.classList.add("btn-secondary");
   }
 }
 
-// Setup genre filter (if a select element with id 'genre-filter' exists)
+// ------------------------------------------------------------
+// Function: setupGenreFilter()
+// Attaches a change event to the genre filter (if present).
+// ------------------------------------------------------------
 function setupGenreFilter() {
-  const genreFilter = document.getElementById('genre-filter');
+  const genreFilter = document.getElementById("genre-filter");
   if (genreFilter) {
-    genreFilter.addEventListener('change', () => {
+    genreFilter.addEventListener("change", () => {
       fetchBooks(genreFilter.value);
     });
   }
 }
 
-// New: Search books by title using the Google Books API
+// ------------------------------------------------------------
+// Function: searchBooks()
+// Fetches books based on a title query using the "intitle:" operator.
+// ------------------------------------------------------------
 async function searchBooks(bookName) {
-    try {
-      // Use the intitle: parameter to search by book title.
-      const searchQuery = `intitle:${encodeURIComponent(bookName)}`;
-      console.log(`Searching books with query: "${searchQuery}"`);
-  
-      const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&maxResults=40`);
-      const data = await response.json();
-      console.log('Search API response:', data);
-      booksData = data.items || [];
-      renderBookGallery();
-    } catch (error) {
-      console.error('Error searching books:', error);
-    }
+  try {
+    const searchQuery = `intitle:${encodeURIComponent(bookName)}`;
+    const response = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${searchQuery}&maxResults=40`);
+    const data = await response.json();
+    booksData = data.items || [];
+    renderBookGallery();
+  } catch (error) {
+    console.error("Error searching books:", error);
   }
-  
-  // New: Set up search event listener for the search input and button
-  function setupSearchListener() {
-    const searchButton = document.getElementById('search-button');
-    const searchInput = document.getElementById('search-input');
-    if (searchButton && searchInput) {
-      searchButton.addEventListener('click', () => {
+}
+
+// ------------------------------------------------------------
+// Function: setupSearchListener()
+// Attaches event listeners to the search input and button.
+// ------------------------------------------------------------
+function setupSearchListener() {
+  const searchButton = document.getElementById("search-button");
+  const searchInput = document.getElementById("search-input");
+  if (searchButton && searchInput) {
+    searchButton.addEventListener("click", () => {
+      const query = searchInput.value.trim();
+      query ? searchBooks(query) : fetchBooks();
+    });
+    searchInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") {
         const query = searchInput.value.trim();
-        if (query) {
-          searchBooks(query);
-        } else {
-          fetchBooks();
-        }
-      });
-      // Optionally, allow 'Enter' key press for search
-      searchInput.addEventListener('keypress', (event) => {
-        if (event.key === "Enter") {
-          const query = searchInput.value.trim();
-          if (query) {
-            searchBooks(query);
-          } else {
-            fetchBooks();
-          }
-        }
-      });
-    }
+        query ? searchBooks(query) : fetchBooks();
+      }
+    });
   }
+}
 
-// ------------------------------
-// Reading List Rendering
-// ------------------------------
-
+// ------------------------------------------------------------
+// Function: renderReadingList()
+// Renders the reading list in the container with id "reading-list".
+// ------------------------------------------------------------
 function renderReadingList() {
-  const readingListContainer = document.getElementById('reading-list');
-  if (!readingListContainer) {
-    console.error("No element with id 'reading-list' found");
+  const readingListContainer = document.getElementById("reading-list");
+  if (!readingListContainer) return;
+  readingListContainer.innerHTML = "";
+  if (!readingList.length) {
+    readingListContainer.innerHTML = "<p>Your reading list is empty.</p>";
     return;
   }
-  readingListContainer.innerHTML = '';
-
-  if (readingList.length === 0) {
-    readingListContainer.innerHTML = '<p>Your reading list is empty.</p>';
-    return;
-  }
-
   readingList.forEach(book => {
     const volumeInfo = book.volumeInfo;
-    const bookElement = document.createElement('div');
-    bookElement.className = 'book-card';
-
-    // Now two buttons are added: one to remove and one to mark as finished.
+    const bookElement = document.createElement("div");
+    bookElement.className = "book-card";
     bookElement.innerHTML = `
       <img class="book-cover" src="${volumeInfo.imageLinks?.thumbnail || '/api/placeholder/200/300'}" alt="Cover of ${volumeInfo.title}">
       <div class="book-info">
-          <div class="book-title">${volumeInfo.title || 'Unknown Title'}</div>
-          <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown Author'}</div>
-          <div class="book-date">Published: ${volumeInfo.publishedDate || 'Unknown'}</div>
-          <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + '...' : 'No description available'}</div>
-          <div class="book-actions">
-              <button class="btn btn-danger remove-btn" data-id="${book.id}">Remove</button>
-              <button class="btn btn-success finished-btn" data-id="${book.id}">Mark as Finished</button>
-          </div>
+        <div class="book-title">${volumeInfo.title || "Unknown Title"}</div>
+        <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(", ") : "Unknown Author"}</div>
+        <div class="book-date">Published: ${volumeInfo.publishedDate || "Unknown"}</div>
+        <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + "..." : "No description available"}</div>
+        <div class="book-actions">
+          <button class="btn btn-danger remove-btn" data-id="${book.id}">Remove</button>
+          <button class="btn btn-success finished-btn" data-id="${book.id}">Mark as Finished</button>
+        </div>
       </div>
     `;
     readingListContainer.appendChild(bookElement);
   });
-
-  // Set up event listeners for remove and finish buttons
-  document.querySelectorAll('.remove-btn').forEach(btn => {
-    btn.addEventListener('click', handleRemoveFromReadingList);
-  });
-
-  document.querySelectorAll('.finished-btn').forEach(btn => {
-    btn.addEventListener('click', handleMarkAsFinished);
-  });
+  document.querySelectorAll(".remove-btn").forEach(btn => btn.addEventListener("click", handleRemoveFromReadingList));
+  document.querySelectorAll(".finished-btn").forEach(btn => btn.addEventListener("click", handleMarkAsFinished));
 }
 
-// Remove a book from the reading list
+// ------------------------------------------------------------
+// Function: handleRemoveFromReadingList()
+// Removes a book from the reading list.
 function handleRemoveFromReadingList(event) {
-  const bookId = event.target.getAttribute('data-id');
+  const bookId = event.target.getAttribute("data-id");
   readingList = readingList.filter(item => item.id !== bookId);
   saveToLocalStorage();
   renderReadingList();
 }
 
-// Mark a book as finished: remove it from reading list and add it to finishedBooks.
+// ------------------------------------------------------------
+// Function: handleMarkAsFinished()
+// Removes a book from the reading list and adds it to finishedBooks.
 function handleMarkAsFinished(event) {
-  const bookId = event.target.getAttribute('data-id');
-  // Remove from reading list
-  const bookIndex = readingList.findIndex(item => item.id === bookId);
-  if (bookIndex === -1) {
-    alert('This book is not in your reading list.');
+  const bookId = event.target.getAttribute("data-id");
+  const index = readingList.findIndex(item => item.id === bookId);
+  if (index === -1) {
+    alert("This book is not in your reading list.");
     return;
   }
-  const [book] = readingList.splice(bookIndex, 1);
+  const [book] = readingList.splice(index, 1);
   saveToLocalStorage();
-
-  // Add to finishedBooks if not already there
   if (!finishedBooks.some(item => item.id === bookId)) {
     finishedBooks.push(book);
     saveFinishedBooksToLocalStorage();
   }
-  alert('Book marked as finished!');
+  alert("Book marked as finished!");
   renderReadingList();
-  
-  // If finished books section is visible, update it.
-  if (document.getElementById('finished-books-container')) {
+  if (document.getElementById("finished-books-container")) {
     renderFinishedBooks();
   }
 }
 
-// ------------------------------
-// Finished Books Rendering
-// ------------------------------
-
+// ------------------------------------------------------------
+// Function: renderFinishedBooks()
+// Renders the finished books list in the container with id "finished-books-container".
+// ------------------------------------------------------------
 function renderFinishedBooks() {
-  const finishedBooksContainer = document.getElementById('finished-books-container');
-  if (!finishedBooksContainer) {
-    console.error("No element with id 'finished-books-container' found");
+  const finishedBooksContainer = document.getElementById("finished-books-container");
+  if (!finishedBooksContainer) return;
+  finishedBooksContainer.innerHTML = "";
+  if (!finishedBooks.length) {
+    finishedBooksContainer.innerHTML = "<p>You have not finished any books yet.</p>";
     return;
   }
-  finishedBooksContainer.innerHTML = '';
-
-  if (finishedBooks.length === 0) {
-    finishedBooksContainer.innerHTML = '<p>You have not finished any books yet.</p>';
-    return;
-  }
-
   finishedBooks.forEach(book => {
     const volumeInfo = book.volumeInfo;
-    const bookElement = document.createElement('div');
-    bookElement.className = 'book-card';
+    const bookElement = document.createElement("div");
+    bookElement.className = "book-card";
     bookElement.innerHTML = `
       <img class="book-cover" src="${volumeInfo.imageLinks?.thumbnail || '/api/placeholder/200/300'}" alt="Cover of ${volumeInfo.title}">
       <div class="book-info">
-          <div class="book-title">${volumeInfo.title || 'Unknown Title'}</div>
-          <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(', ') : 'Unknown Author'}</div>
-          <div class="book-date">Published: ${volumeInfo.publishedDate || 'Unknown'}</div>
-          <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + '...' : 'No description available'}</div>
-          <div class="book-actions">
-              <button class="btn btn-danger remove-finished-btn" data-id="${book.id}">Remove</button>
-          </div>
+        <div class="book-title">${volumeInfo.title || "Unknown Title"}</div>
+        <div class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(", ") : "Unknown Author"}</div>
+        <div class="book-date">Published: ${volumeInfo.publishedDate || "Unknown"}</div>
+        <div class="book-summary">${volumeInfo.description ? volumeInfo.description.substring(0, 100) + "..." : "No description available"}</div>
+        <div class="book-actions">
+          <button class="btn btn-danger remove-finished-btn" data-id="${book.id}">Remove</button>
+        </div>
       </div>
     `;
     finishedBooksContainer.appendChild(bookElement);
   });
-
-  document.querySelectorAll('.remove-finished-btn').forEach(btn => {
-    btn.addEventListener('click', handleRemoveFinishedBook);
-  });
+  document.querySelectorAll(".remove-finished-btn").forEach(btn => btn.addEventListener("click", handleRemoveFinishedBook));
 }
 
-// Remove a book from the finished books list
+// ------------------------------------------------------------
+// Function: handleRemoveFinishedBook()
+// Removes a book from the finished books list.
 function handleRemoveFinishedBook(event) {
-  const bookId = event.target.getAttribute('data-id');
+  const bookId = event.target.getAttribute("data-id");
   finishedBooks = finishedBooks.filter(item => item.id !== bookId);
   saveFinishedBooksToLocalStorage();
   renderFinishedBooks();
 }
 
-// ------------------------------
-// Initialization
-// ------------------------------
-
+// ------------------------------------------------------------
+// Function: initReadingListSection()
+// Hides the reading list container initially and sets up the "View Reading List"
+// button so that a click toggles the display of the reading list.
+// ------------------------------------------------------------
 function initReadingListSection() {
-  const readingListButton = document.getElementById('view-reading-list');
-  if (readingListButton) {
-    readingListButton.addEventListener('click', renderReadingList);
-  } else {
-    console.error("Button with id 'view-reading-list' not found");
+  const button = document.getElementById("view-reading-list");
+  const container = document.getElementById("reading-list");
+  if (container) {
+    container.style.display = "none"; // hide initially
+  }
+  if (button) {
+    button.addEventListener("click", () => {
+      if (container.style.display === "none") {
+        container.style.display = "block";
+        renderReadingList();
+        button.textContent = "Hide Reading List";
+      } else {
+        container.style.display = "none";
+        button.textContent = "View Reading List";
+      }
+    });
   }
 }
 
-function init() {
+// ------------------------------------------------------------
+// Function: initApp()
+// Main application initialization function.
+// Loads localStorage data, fetches books (default "fiction"),
+// sets up genre filter and search listeners, and sets up the reading list toggle.
+// ------------------------------------------------------------
+function initApp() {
   loadFromLocalStorage();
   loadFinishedBooksFromLocalStorage();
   
-  // If the gallery container exists (e.g., on Gallery or Home page), fetch and render books.
-  if (document.getElementById('book-gallery')) {
+  if (document.getElementById("book-gallery")) {
     fetchBooks();
     setupGenreFilter();
   }
   
-  if (document.getElementById('view-reading-list')) {
+  // Do not auto-render the reading list; let the "View Reading List" button control it.
+  if (document.getElementById("view-reading-list")) {
     initReadingListSection();
   }
   
-  // If the finished books container exists (e.g., on finishedlist.html), render finished books.
-  if (document.getElementById('finished-books-container')) {
+  if (document.getElementById("finished-books-container")) {
     renderFinishedBooks();
   }
-
-  // New: Set up the search functionality if the relevant elements exist.
-  if (document.getElementById('search-button') && document.getElementById('search-input')) {
+  
+  if (document.getElementById("search-button") && document.getElementById("search-input")) {
     setupSearchListener();
   }
   
-  console.log('App initialized.');
+  console.log("App initialized.");
 }
-
-document.addEventListener('DOMContentLoaded', init);
