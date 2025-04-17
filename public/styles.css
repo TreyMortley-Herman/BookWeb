@@ -72,6 +72,7 @@ header {
     background-color: rgba(255, 255, 255, 0.2);
     color: rgb(255, 255, 255);
     border: none;
+    cursor: pointer;
     padding: 8px 16px;
     border-radius: 20px;
     text-decoration: none;
@@ -821,10 +822,15 @@ main {
   }
   
   .user-name {
-    color: #fff;
-    font-size: 16px;
+    color: var(--accent-color); 
+    font-size: 26px;
     font-weight: 600;
     letter-spacing: 0.5px;
+    text-transform: uppercase;
+  } 
+
+  .user-name:hover { 
+    transform: scale(1.05);
   } 
 
   /* Loading indicator */
@@ -846,4 +852,221 @@ main {
     0% { opacity: 0.6; }
     50% { opacity: 1; }
     100% { opacity: 0.6; }
+}
+
+/* Enhanced Mobile Responsiveness */
+
+/* Base mobile adjustments */
+@media screen and (max-width: 768px) {
+    body {
+        font-size: 16px;
+    }
+    
+    main {
+        padding: 15px 10px;
+    }
+    
+    .section {
+        padding: 20px 15px;
+        margin: 10px 0;
+    }
+    
+    /* Improved responsive header */
+    header {
+        padding: 15px;
+        flex-direction: column;
+        height: auto;
+    }
+    
+    .auth-buttons {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+    
+    /* Navigation adjustments */
+    .navbar {
+        position: static;
+        padding: 10px 0;
+    }
+    
+    .navbar__container ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        padding: 0 10px;
+    }
+    
+    .navbar__container li a {
+        font-size: 16px;
+        padding: 8px 0;
+    }
+}
+
+/* Small mobile devices */
+@media screen and (max-width: 480px) {
+    /* Refine book grid for smaller screens */
+    .book-grid, 
+    .books-grid,
+    .reading-list-grid,
+    .finished-books-grid {
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+    }
+    
+    .book-card {
+        max-height: none;
+    }
+    
+    .book-cover {
+        height: 200px;
+    }
+    
+    .book-info {
+        padding: 15px 10px;
+    }
+    
+    .book-title {
+        font-size: 16px;
+    }
+    
+    .book-author, .book-date {
+        font-size: 12px;
+    }
+    
+    .book-summary {
+        font-size: 12px;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+    }
+    
+    /* Button adjustments for smaller space */
+    .btn, .remove-btn, .finished-btn, .bookmark-btn {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+    
+    .book-actions {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    /* Search adjustments */
+    .search-container {
+        flex-direction: column;
+    }
+    
+    .search-container input,
+    .search-container button {
+        width: 100%;
+    }
+    
+    /* Footer adjustments */
+    .footer__link--wrapper {
+        flex-direction: column;
+    }
+    
+    .footer__links--items {
+        margin-bottom: 20px;
+    }
+}
+
+/* Touch-friendly improvements */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets for better usability */
+    .btn, 
+    .button,
+    .navbar__container li a,
+    .social__icon--link {
+        padding: 12px 16px;
+        min-height: 44px;
+        min-width: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    /* Remove hover effects that might cause confusion on touch devices */
+    .book-card:hover {
+        transform: none;
+    }
+    
+    .book-card:active {
+        transform: translateY(-5px);
+    }
+    
+    /* Add active states instead of hover states */
+    .btn:active,
+    .button:active,
+    .navbar__container li a:active {
+        opacity: 0.7;
+    }
+}
+
+/* Fix for iPhone X and newer with notches */
+@supports (padding: max(0px)) {
+    header, footer {
+        padding-left: max(20px, env(safe-area-inset-left));
+        padding-right: max(20px, env(safe-area-inset-right));
+    }
+    
+    .navbar {
+        padding-left: max(0px, env(safe-area-inset-left));
+        padding-right: max(0px, env(safe-area-inset-right));
+    }
+}
+
+/* Portrait orientation specific */
+@media screen and (max-width: 768px) and (orientation: portrait) {
+    .book-grid, 
+    .books-grid,
+    .reading-list-grid,
+    .finished-books-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Landscape orientation specific */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+    header {
+        flex-direction: row;
+        height: 60px;
+    }
+    
+    .navbar {
+        top: 60px;
+    }
+    
+    .book-grid, 
+    .books-grid,
+    .reading-list-grid,
+    .finished-books-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Improve loading experience */
+@media screen and (max-width: 768px) {
+    .loading {
+        font-size: 16px;
+        padding: 15px;
+    }
+}
+
+/* Dark mode preference adaptation */
+@media (prefers-color-scheme: dark) {
+    .auth-form-container {
+        background-color: var(--card-bg);
+    }
+    
+    .auth-form h2,
+    .form-group label {
+        color: white;
+    }
+    
+    .form-group input {
+        background-color: rgba(255, 255, 255, 0.1);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: white;
+    }
 }
