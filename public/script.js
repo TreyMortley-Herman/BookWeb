@@ -73,9 +73,10 @@ function saveFinishedBooks() {
 function showUserInfo(user) {
   const authButtonsDiv = document.querySelector(".auth-buttons");
   if (authButtonsDiv) {
-    authButtonsDiv.innerHTML = `
-      <span style="margin-right: 10px; font-weight: bold;">${user.displayName || "User"}</span>
-      <button id="logout-button" style="padding: 10px;">Logout</button>
+    authButtonsDiv.innerHTML = ` <div class="user-controls">
+  <span class="user-name">${user.displayName || "User"}</span>
+  <button id="logout-button" class="button">Logout</button>
+  </div> 
     `;
     document.getElementById("logout-button").addEventListener("click", () => {
       signOut(auth).then(() => window.location.reload());
@@ -191,7 +192,7 @@ function initReadingListSection() {
 }
 
 function renderReadingList() {
-  const readingListContainer = document.getElementById("reading-list");
+  const readingListContainer = document.getElementById("reading-list-container");
   if (!readingListContainer) return;
   
   readingListContainer.innerHTML = "";

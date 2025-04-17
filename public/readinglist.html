@@ -10,7 +10,7 @@
 </head>
 <body>
   <header>
-    <a href="/" class="navbar__logo">THE BOOK WEB</a>
+    <a href="/public/index.html" class="navbar__logo">THE BOOK WEB</a>
     <div class="auth-buttons">
       <a href="login.html" class="button">Login</a>
       <a href="register.html" class="button">Register</a>
@@ -30,14 +30,13 @@
   </nav>
 
   <main>
-   <!-- Reading List Section -->  
+    <!-- Reading List Section -->   
     <div id= "reading-list-section" class="section hidden">
       <h2>Reading List</h2>
-      <div id="reading-list">
-        <!-- Reading list items will be loaded here -->
-
-      <!-- Button to trigger rendering of the reading list -->
-      <button id="view-reading-list" class="button">View Reading List</button>
+      
+      <div id="reading-list-container" class="reading-list-grid"></div> 
+        <!-- Reading list items will be loaded here  -->
+      </div>
     </div>
   </main>
 
