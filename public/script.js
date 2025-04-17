@@ -321,7 +321,7 @@ function renderFinishedBooks() {
         <h3 class="book-title">${volumeInfo.title || "Unknown Title"}</h3>
         <p class="book-author">${volumeInfo.authors ? volumeInfo.authors.join(", ") : "Unknown Author"}</p>
         <div class="book-actions">
-          <button class="btn btn-danger remove-finished-btn" data-id="${book.id}">
+          <button class="finished-btn" data-id="${book.id}">
             <i class="fas fa-trash"></i> Remove
           </button>
         </div>
@@ -330,7 +330,7 @@ function renderFinishedBooks() {
     finishedBooksContainer.appendChild(bookElement);
   });
 
-  document.querySelectorAll(".remove-finished-btn").forEach(btn => {
+  document.querySelectorAll(".finished-btn").forEach(btn => {
     btn.addEventListener("click", handleRemoveFinishedBook);
   });
 }
