@@ -65,8 +65,9 @@ header {
 
 .auth-buttons {
     display: flex;
-    gap: 15px;
-}
+    gap: 10px;
+    align-items: center;
+  } 
 
 .button {
     background-color: rgba(255, 255, 255, 0.2);
@@ -854,219 +855,574 @@ main {
     100% { opacity: 0.6; }
 }
 
-/* Enhanced Mobile Responsiveness */
-
-/* Base mobile adjustments */
-@media screen and (max-width: 768px) {
-    body {
-        font-size: 16px;
+/* Mobile Toggle Button */
+.mobile-nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 30px;
+    height: 21px;
+    position: relative;
+    z-index: 100;
+    cursor: pointer;
+  }
+  
+  .mobile-nav-toggle span {
+    display: block;
+    height: 3px;
+    width: 100%;
+    background-color: var(--accent-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+  }
+  
+  /* Mobile Menu Overlay */
+  .mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(20, 28, 53, 0.95);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s ease;
+    backdrop-filter: blur(5px);
+  }
+  
+  .mobile-menu.active {
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .mobile-menu-container {
+    width: 85%;
+    max-width: 400px;
+    background-color: var(--card-bg);
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    transform: translateY(30px);
+    transition: all 0.5s ease;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-menu.active .mobile-menu-container {
+    transform: translateY(0);
+  }
+  
+  .mobile-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-menu-title {
+    font-size: 24px;
+    font-weight: 700;
+    color: white;
+    letter-spacing: 1px;
+  }
+  
+  .mobile-menu-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 32px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+  
+  .mobile-menu-close:hover {
+    color: var(--accent-color);
+    transform: rotate(90deg);
+  }
+  
+  .mobile-menu-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mobile-menu-links li {
+    margin-bottom: 15px;
+  }
+  
+  .mobile-menu-links a {
+    display: block;
+    color: white;
+    font-size: 18px;
+    padding: 12px 15px;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  .mobile-menu-links a:hover {
+    background-color: rgba(0, 255, 170, 0.1);
+    color: var(--accent-color);
+    transform: translateX(5px);
+  }
+  
+  /* Responsive Media Queries */
+  @media screen and (max-width: 820px) {
+    .navbar {
+      display: none;
     }
     
-    main {
-        padding: 15px 10px;
+    .mobile-nav-toggle {
+      display: flex;
     }
     
-    .section {
-        padding: 20px 15px;
-        margin: 10px 0;
-    }
-    
-    /* Improved responsive header */
     header {
-        padding: 15px;
-        flex-direction: column;
-        height: auto;
+      padding: 15px 20px;
+    }
+  }
+  
+  @media screen and (max-width: 600px) {
+    header {
+      padding: 12px 15px;
     }
     
     .auth-buttons {
-        width: 100%;
-        justify-content: center;
-        margin-top: 10px;
+      gap: 10px;
     }
     
-    /* Navigation adjustments */
-    .navbar {
-        position: static;
-        padding: 10px 0;
+    .button {
+      padding: 6px 12px;
+      font-size: 14px;
     }
     
-    .navbar__container ul {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 15px;
-        padding: 0 10px;
+    .mobile-menu-container {
+      width: 90%;
+      padding: 20px;
     }
-    
-    .navbar__container li a {
-        font-size: 16px;
-        padding: 8px 0;
-    }
-}
-
-/* Small mobile devices */
-@media screen and (max-width: 480px) {
-    /* Refine book grid for smaller screens */
-    .book-grid, 
-    .books-grid,
-    .reading-list-grid,
-    .finished-books-grid {
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 15px;
-    }
-    
-    .book-card {
-        max-height: none;
-    }
-    
-    .book-cover {
-        height: 200px;
-    }
-    
-    .book-info {
-        padding: 15px 10px;
-    }
-    
-    .book-title {
-        font-size: 16px;
-    }
-    
-    .book-author, .book-date {
-        font-size: 12px;
-    }
-    
-    .book-summary {
-        font-size: 12px;
-        -webkit-line-clamp: 2;
-        line-clamp: 2;
-    }
-    
-    /* Button adjustments for smaller space */
-    .btn, .remove-btn, .finished-btn, .bookmark-btn {
-        padding: 8px 12px;
-        font-size: 12px;
-    }
-    
-    .book-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
-    
-    /* Search adjustments */
-    .search-container {
-        flex-direction: column;
-    }
-    
-    .search-container input,
-    .search-container button {
-        width: 100%;
-    }
-    
-    /* Footer adjustments */
-    .footer__link--wrapper {
-        flex-direction: column;
-    }
-    
-    .footer__links--items {
-        margin-bottom: 20px;
-    }
-}
-
-/* Touch-friendly improvements */
-@media (hover: none) and (pointer: coarse) {
-    /* Increase touch targets for better usability */
-    .btn, 
-    .button,
-    .navbar__container li a,
-    .social__icon--link {
-        padding: 12px 16px;
-        min-height: 44px;
-        min-width: 44px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-    
-    /* Remove hover effects that might cause confusion on touch devices */
-    .book-card:hover {
-        transform: none;
-    }
-    
-    .book-card:active {
-        transform: translateY(-5px);
-    }
-    
-    /* Add active states instead of hover states */
-    .btn:active,
-    .button:active,
-    .navbar__container li a:active {
-        opacity: 0.7;
-    }
-}
-
-/* Fix for iPhone X and newer with notches */
-@supports (padding: max(0px)) {
-    header, footer {
-        padding-left: max(20px, env(safe-area-inset-left));
-        padding-right: max(20px, env(safe-area-inset-right));
-    }
-    
-    .navbar {
-        padding-left: max(0px, env(safe-area-inset-left));
-        padding-right: max(0px, env(safe-area-inset-right));
-    }
-}
-
-/* Portrait orientation specific */
-@media screen and (max-width: 768px) and (orientation: portrait) {
-    .book-grid, 
-    .books-grid,
-    .reading-list-grid,
-    .finished-books-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Landscape orientation specific */
-@media screen and (max-width: 900px) and (orientation: landscape) {
+  }
+  
+  @media screen and (max-width: 480px) {
     header {
-        flex-direction: row;
-        height: 60px;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      height: auto;
     }
     
-    .navbar {
-        top: 60px;
+    .navbar__logo {
+      font-size: 22px;
     }
     
-    .book-grid, 
-    .books-grid,
-    .reading-list-grid,
-    .finished-books-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .auth-buttons {
+      gap: 8px;
     }
-}
+    
+    .button {
+      padding: 5px 10px;
+      font-size: 13px;
+    }
+    
+    .search-container {
+      flex-direction: column;
+    }
+    
+    .search-container button {
+      width: 100%;
+    }
+    
+    .mobile-menu-title {
+      font-size: 20px;
+    }
+    
+    .mobile-menu-links a {
+      font-size: 16px;
+      padding: 10px;
+    }
+  }
+  
+  /* Hide unnecessary double navigation on smaller screens */
+  @media screen and (max-width: 820px) {
+    .navbar + div ul {
+      display: none;
+    }
+  }
 
-/* Improve loading experience */
-@media screen and (max-width: 768px) {
+  /* Mobile-First Optimizations - Similar to Goodreads mobile view */
+
+@media screen and (max-width: 820px) {
+    /* Base element size reductions */
+    body {
+      font-size: 14px;
+    }
+  
+    /* Header adjustments */
+    header {
+      padding: 12px 15px;
+      height: 60px;
+    }
+  
+    .navbar__logo {
+      font-size: 20px;
+    }
+  
+    .auth-buttons {
+      gap: 8px;
+    }
+  
+    .button {
+      padding: 5px 12px;
+      font-size: 13px;
+      border-radius: 15px;
+    }
+  
+    /* Search container */
+    .search-container {
+      margin-bottom: 10px;
+      gap: 0.5rem;
+    }
+    
+    .search-container input {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 1.5rem;
+    }
+    
+    .search-container button {
+      padding: 0.5rem 1rem;
+      font-size: 0.9rem;
+      border-radius: 1.5rem;
+    }
+  
+    /* Book card adjustments */
+    .book-grid, .books-grid, .reading-list-grid, .finished-books-grid {
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 15px;
+      padding: 10px;
+    }
+  
+    .book-card {
+      border-radius: 8px;
+      max-height: none;
+    }
+  
+    .book-cover {
+      height: 180px;
+    }
+  
+    .book-info {
+      padding: 12px;
+    }
+  
+    .book-title {
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+  
+    .book-author {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+  
+    .book-date {
+      font-size: 10px;
+      margin-bottom: 8px;
+    }
+  
+    .book-summary {
+      font-size: 11px;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      margin-bottom: 10px;
+    }
+  
+    .book-actions {
+      gap: 5px;
+    }
+  
+    .btn {
+      padding: 6px 10px;
+      font-size: 11px;
+      border-radius: 15px;
+    }
+  
+    /* Section adjustments */
+    .section {
+      padding: 15px;
+      margin: 8px;
+      border-radius: 8px;
+    }
+  
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+    }
+  
+    /* Footer adjustments */
+    .footer__container {
+      padding: 25px 0 40px 0;
+    }
+  
+    .footer__links--items h2 {
+      font-size: 15px;
+      margin-bottom: 10px;
+    }
+  
+    .footer__links--items a {
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+  
+    .socials__icons {
+      gap: 15px;
+      margin-bottom: 10px;
+    }
+  
+    .social__icon--link {
+      font-size: 18px;
+    }
+  
+    .website__rights {
+      font-size: 12px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    /* Even smaller screens */
+    main {
+      padding: 10px;
+    }
+  
+    .book-grid, .books-grid, .reading-list-grid, .finished-books-grid {
+      grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+      gap: 12px;
+      padding: 5px;
+    }
+  
+    .book-cover {
+      height: 160px;
+    }
+  
+    .book-info {
+      padding: 10px;
+    }
+  
+    .book-title {
+      font-size: 13px;
+    }
+  
+    .book-author {
+      font-size: 11px;
+    }
+  
+    .book-summary {
+      font-size: 10px;
+      -webkit-line-clamp: 2;
+      line-clamp: 2;
+      margin-bottom: 8px;
+    }
+  
+    .btn {
+      padding: 5px 8px;
+      font-size: 10px;
+      letter-spacing: 0.3px;
+    }
+  
+    /* Improved mobile menu */
+    .mobile-menu-container {
+      width: 95%;
+      padding: 15px;
+    }
+  
+    .mobile-menu-title {
+      font-size: 18px;
+    }
+  
+    .mobile-menu-links a {
+      font-size: 14px;
+      padding: 8px 10px;
+    }
+  
+    .mobile-menu-close {
+      font-size: 26px;
+    }
+    
+    /* Loading indicator */
     .loading {
-        font-size: 16px;
-        padding: 15px;
-    }
-}
-
-/* Dark mode preference adaptation */
-@media (prefers-color-scheme: dark) {
-    .auth-form-container {
-        background-color: var(--card-bg);
+      padding: 12px;
+      margin: 10px 0;
+      font-size: 14px;
+      border-radius: 6px;
     }
     
-    .auth-form h2,
+    /* Auth forms */
+    .auth-form-container {
+      margin: 40px auto;
+      padding: 20px;
+    }
+    
+    .auth-form h2 {
+      margin-bottom: 20px;
+      font-size: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 15px;
+    }
+    
     .form-group label {
-        color: white;
+      margin-bottom: 5px;
+      font-size: 13px;
     }
     
     .form-group input {
-        background-color: rgba(255, 255, 255, 0.1);
-        border-color: rgba(255, 255, 255, 0.2);
-        color: white;
+      padding: 10px;
+      font-size: 14px;
     }
-}
+    
+    .submit-btn {
+      padding: 12px;
+      font-size: 14px;
+    }
+  }
+  
+    /* Mobile Menu */
+
+.mobile-menu-divider {
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.1);
+    margin: 15px 0;
+  }
+  
+  .mobile-auth-links {
+    margin-top: 10px;
+  }
+  
+  .mobile-user-info {
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: rgba(0, 255, 170, 0.1);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .mobile-user-name {
+    color: var(--accent-color);
+    font-weight: 600;
+    font-size: 16px;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  
+  #mobile-logout-button {
+    color: var(--danger-color);
+    border: 1px solid rgba(255, 51, 102, 0.2);
+    background-color: rgba(255, 51, 102, 0.1);
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+  
+  #mobile-logout-button:hover {
+    background-color: rgba(255, 51, 102, 0.3);
+  }
+  
+  /* Responsive adjustments for the mobile auth section */
+  @media screen and (max-width: 480px) {
+    .mobile-user-name {
+      font-size: 14px;
+    }
+    
+    .mobile-auth-links li a {
+      padding: 10px;
+      font-size: 14px;
+    }
+  }
+
+  .mobile-menu-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .mobile-menu-links li {
+    margin-bottom: 5px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .mobile-menu-links li:last-child {
+    border-bottom: none;
+  }
+  
+  .mobile-menu-links a {
+    display: block;
+    color: white;
+    font-size: 16px;
+    padding: 12px 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .mobile-menu-links a:hover {
+    background-color: rgba(0, 255, 170, 0.1);
+    color: var(--accent-color);
+  }
+  
+  /* More compact hamburger icon */
+  .mobile-nav-toggle {
+    width: 24px;
+    height: 18px;
+  }
+  
+  .mobile-nav-toggle span {
+    height: 2px;
+  }
+  
+  /* User controls in mobile view */
+  @media screen and (max-width: 480px) {
+    .user-controls {
+      gap: 8px;
+      align-items: center;
+    }
+    
+    .user-name {
+      font-size: 14px;
+      white-space: nowrap;
+      max-width: 80px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    #logout-button {
+      padding: 4px 8px;
+      font-size: 12px;
+    }
+  }
+  
+  /* Hide auth buttons in header when in mobile view */
+  @media screen and (max-width: 820px) {
+    .auth-buttons {
+      display: none;
+    }
+    
+    /* Show auth buttons only in mobile menu */
+    .mobile-auth-links {
+      display: block;
+    }
+  }
+  
+  /* Ensure auth buttons are shown on desktop */
+  @media screen and (min-width: 821px) {
+    .auth-buttons {
+      display: flex;
+    }
+  }

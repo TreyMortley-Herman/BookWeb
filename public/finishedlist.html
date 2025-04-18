@@ -16,19 +16,49 @@
             <a href="login.html" class="button">Login</a>
             <a href="register.html" class="button">Register</a>
         </div>
+        
+        <div class="mobile-nav-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
     </header>
 
-    <nav class="navbar">
-        <div class="navbar__container">
-            <ul>
-                <li><a href="index.html" class="nav-link" data-section="home-section">Home</a></li>
-                <li><a href="Gallery.html" class="nav-link" data-section="gallery-section">Gallery</a></li>
-                <li><a href="about.html" class="nav-link" data-section="about-section">About</a></li>
-                <li><a href="readinglist.html" class="nav-link" data-section="reading-list-section">Reading List</a></li>
-                <li><a href="finishedlist.html" class="nav-link" data-section="finished-books-section">Finished Books</a></li>
-            </ul>
+    <div class="mobile-menu">
+        <div class="mobile-menu-container">
+          <div class="mobile-menu-header">
+            <span class="mobile-menu-title">MENU</span>
+            <button class="mobile-menu-close">&times;</button>
+          </div>
+          <ul class="mobile-menu-links">
+            <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+            <li><a href="Gallery.html"><i class="fas fa-book-open"></i> Gallery</a></li>
+            <li><a href="about.html"><i class="fas fa-info-circle"></i> About</a></li>
+            <li><a href="readinglist.html"><i class="fas fa-list"></i> Reading List</a></li>
+            <li><a href="finishedlist.html"><i class="fas fa-check-circle"></i> Finished Books</a></li> 
+          </ul>
+          
+          <!-- Auth links section that will be dynamically updated -->
+          <div class="mobile-menu-divider"></div>
+          <ul class="mobile-menu-links mobile-auth-links">
+            <!-- This section will be populated by updateMobileMenu() function -->
+            <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+            <li><a href="register.html"><i class="fas fa-user-plus"></i> Register</a></li>
+          </ul>
         </div>
-    </nav>
+      </div>
+    
+      <nav class="navbar">
+        <div class="navbar__container">
+          <ul>
+            <li><a href="index.html" class="nav-link" data-section="home-section">Home</a></li>
+            <li><a href="Gallery.html" class="nav-link" data-section="gallery-section">Gallery</a></li>
+            <li><a href="about.html" class="nav-link" data-section="about-section">About</a></li>
+            <li><a href="readinglist.html" class="nav-link" data-section="reading-list-section">Reading List</a></li>
+            <li><a href="finishedlist.html" class="nav-link" data-section="finished-books-section">Finished Books</a></li>
+          </ul>
+        </div>
+      </nav>
    
     
     <main>  

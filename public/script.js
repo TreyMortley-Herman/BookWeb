@@ -40,6 +40,8 @@ onAuthStateChanged(auth, (user) => {
     finishedBooks = [];
   }
   initApp(user);
+  // Update mobile menu based on auth status
+  updateMobileMenu(user);
 });
 
 // ---------------------------------------------------------------------
@@ -81,6 +83,38 @@ function showUserInfo(user) {
     document.getElementById("logout-button").addEventListener("click", () => {
       signOut(auth).then(() => window.location.reload());
     });
+  }
+}
+
+// Function to update mobile menu based on auth status
+function updateMobileMenu(user) {
+  const mobileAuthLinks = document.querySelector('.mobile-auth-links');
+  if (!mobileAuthLinks) return;
+  
+  if (user) {
+    // User is signed in - show user info and logout button
+    mobileAuthLinks.innerHTML = `
+      <li class="mobile-user-info">
+        <span class="mobile-user-name">${user.displayName || "User"}</span>
+      </li>
+      <li>
+        <a href="#" id="mobile-logout-button">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </li>
+    `;
+    
+    // Add event listener to the logout button
+    document.getElementById("mobile-logout-button").addEventListener("click", (e) => {
+      e.preventDefault();
+      signOut(auth).then(() => window.location.reload());
+    });
+  } else {
+    // User is not signed in - show login and register links
+    mobileAuthLinks.innerHTML = `
+      <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+      <li><a href="register.html"><i class="fas fa-user-plus"></i> Register</a></li>
+    `;
   }
 }
 
@@ -389,6 +423,70 @@ function setupSearchListener() {
 }
 
 // ---------------------------------------------------------------------
+// Mobile Menu Functions
+// ---------------------------------------------------------------------
+
+function setupMobileMenu() {
+  const mobileToggle = document.querySelector('.mobile-nav-toggle');
+  const mobileMenu = document.querySelector('.mobile-menu');
+  const mobileClose = document.querySelector('.mobile-menu-close');
+  const mobileLinks = document.querySelectorAll('.mobile-menu-links a');
+  
+  if (mobileToggle && mobileMenu && mobileClose) {
+    mobileToggle.addEventListener('click', function() {
+      mobileMenu.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+    
+    mobileClose.addEventListener('click', function() {
+      closeMobileMenu();
+    });
+    
+    mobileLinks.forEach(link => {
+      link.addEventListener('click', function() {
+        closeMobileMenu();
+      });
+    });
+    
+    mobileMenu.addEventListener('click', function(e) {
+      if (e.target === mobileMenu) {
+        closeMobileMenu();
+      }
+    });
+  }
+  
+  function closeMobileMenu() {
+    mobileMenu.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+}
+
+// Add this enhancement for scroll-aware header
+function setupScrollHeader() {
+  let lastScrollTop = 0;
+  const header = document.querySelector('header');
+  const navbar = document.querySelector('.navbar');
+  
+  if (header && navbar && window.innerWidth <= 820) {
+    window.addEventListener('scroll', function() {
+      let scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      
+      if (scrollTop > lastScrollTop && scrollTop > 60) {
+        // Scrolling down - hide header
+        header.style.transform = 'translateY(-100%)';
+        navbar.style.transform = 'translateY(-100%)';
+      } else {
+        // Scrolling up - show header
+        header.style.transform = 'translateY(0)';
+        navbar.style.transform = 'translateY(0)';
+      }
+      
+      lastScrollTop = scrollTop;
+    });
+  }
+}
+
+// ---------------------------------------------------------------------
 // Main App Initialization
 // ---------------------------------------------------------------------
 function initApp(user) {
@@ -409,4 +507,7 @@ function initApp(user) {
   if (document.getElementById("search-button")) {
     setupSearchListener();
   }
+
+  setupMobileMenu();
+  setupScrollHeader();
 }
